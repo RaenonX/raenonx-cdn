@@ -1,0 +1,14 @@
+apps:
+  - namespace: RaenonX.CDN
+    name: RaenonX.CDN
+    # Entry point
+    script: ./dist/src/index.js
+    # Execution configs
+    exec_mode: cluster
+    instances: 6
+    # Environments
+    env:
+      NODE_ENV: production
+      PORT: 9011
+    # Others
+    time: true # Log timestamp in logs

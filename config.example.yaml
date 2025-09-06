@@ -1,0 +1,37 @@
+server:
+  port: 5155
+  host: localhost
+  nodeEnv: development
+
+cors:
+  origin: "true"
+  credentials: true
+  methods: "GET,POST,PUT,DELETE,OPTIONS"
+  headers: "Origin,X-Requested-With,Content-Type,Accept,Authorization"
+
+cache:
+  directory: ".cache"
+  httpHeader:
+    maxAge: 2592000 # 30 days
+    control: "public, immutable"
+  storage:
+    maxSize: null
+    ttl: 2592000 # 30 days
+
+image:
+  processing:
+    defaultQuality: 80
+    defaultPngCompressionLevel: 6
+    maxWidth: 3840
+    maxHeight: 2160
+
+repositories:
+  example-repo:
+    localPath: "example"
+    description: "Example repository"
+    images:
+      png:
+        storage:
+          ttl: 2592000 # 30 days
+    contents:
+      ogg: {}

@@ -15,6 +15,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+config.yaml
 
 # Logs
 logs
@@ -25,3 +26,4 @@ dist/
 
 # Cache files
 .eslintcache
+.cache/

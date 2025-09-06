@@ -1,0 +1,245 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Image CDN Configuration Schema",
+  "description": "Schema for validating the config.yaml file for the raenonx-cdn service",
+  "type": "object",
+  "required": [
+    "server",
+    "cors",
+    "cache",
+    "image",
+    "repositories"
+  ],
+  "definitions": {
+    "CacheStorageConfig": {
+      "type": "object",
+      "description": "Cache storage configuration",
+      "properties": {
+        "maxSize": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "description": "Maximum number of items in the cache storage (integer >= 1 or null for unlimited)"
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Time to live for cache entries in milliseconds"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CacheHeaderConfig": {
+      "type": "object",
+      "description": "Cache header configuration",
+      "required": [
+        "maxAge",
+        "control"
+      ],
+      "properties": {
+        "maxAge": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Cache max-age in seconds"
+        },
+        "control": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Cache control directives"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "server": {
+      "type": "object",
+      "description": "Server configuration settings",
+      "required": [
+        "port",
+        "host",
+        "nodeEnv"
+      ],
+      "properties": {
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "Port number for the server to listen on"
+        },
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Host address for the server to bind to"
+        },
+        "nodeEnv": {
+          "type": "string",
+          "enum": [
+            "development",
+            "production",
+            "test"
+          ],
+          "description": "Node environment setting"
+        }
+      },
+      "additionalProperties": false
+    },
+    "cors": {
+      "type": "object",
+      "description": "Cross-Origin Resource Sharing configuration",
+      "required": [
+        "origin",
+        "credentials",
+        "methods",
+        "headers"
+      ],
+      "properties": {
+        "origin": {
+          "type": "string",
+          "description": "CORS origin setting - 'true' for all origins, comma-separated domains, or 'false'"
+        },
+        "credentials": {
+          "type": "boolean",
+          "description": "Whether to allow credentials in CORS requests"
+        },
+        "methods": {
+          "type": "string",
+          "pattern": "^[A-Z,]+$",
+          "description": "Comma-separated list of allowed HTTP methods"
+        },
+        "headers": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Comma-separated list of allowed headers"
+        }
+      },
+      "additionalProperties": false
+    },
+    "cache": {
+      "type": "object",
+      "description": "Cache configuration settings",
+      "required": [
+        "directory",
+        "httpHeader",
+        "storage"
+      ],
+      "properties": {
+        "directory": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Directory path for storing cached files"
+        },
+        "httpHeader": {
+          "$ref": "#/definitions/CacheHeaderConfig"
+        },
+        "storage": {
+          "$ref": "#/definitions/CacheStorageConfig"
+        }
+      },
+      "additionalProperties": false
+    },
+    "image": {
+      "type": "object",
+      "description": "Image processing configuration",
+      "required": [
+        "processing"
+      ],
+      "properties": {
+        "processing": {
+          "type": "object",
+          "description": "Image processing parameters",
+          "required": [
+            "defaultQuality",
+            "defaultPngCompressionLevel",
+            "maxWidth",
+            "maxHeight"
+          ],
+          "properties": {
+            "defaultQuality": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Default image quality for compression (1-100)"
+            },
+            "defaultPngCompressionLevel": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9,
+              "description": "Default PNG compression level (0-9)"
+            },
+            "maxWidth": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum allowed image width in pixels"
+            },
+            "maxHeight": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum allowed image height in pixels"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "repositories": {
+      "type": "object",
+      "description": "Content repository mappings",
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "type": "object",
+          "description": "Content repository configuration",
+          "required": [
+            "localPath",
+            "description"
+          ],
+          "properties": {
+            "localPath": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Storage path for the repository (relative or absolute)"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Human-readable description of the repository"
+            },
+            "contents": {
+              "type": "object",
+              "description": "Content files mapping by extension",
+              "patternProperties": {
+                "^[a-z0-9]+$": {
+                  "type": "object",
+                  "properties": {
+                    "httpHeader": { "$ref": "#/definitions/CacheHeaderConfig" }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "images": {
+              "type": "object",
+              "description": "Image files mapping by extension",
+              "patternProperties": {
+                "^[a-z0-9]+$": {
+                  "type": "object",
+                  "properties": {
+                    "httpHeader": { "$ref": "#/definitions/CacheHeaderConfig" },
+                    "storage": { "$ref": "#/definitions/CacheStorageConfig" }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    }
+  },
+  "additionalProperties": false
+}
