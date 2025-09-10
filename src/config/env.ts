@@ -14,7 +14,15 @@ export const appConfig = loadAppConfig() as AppConfig;
  */
 export const configHelpers = {
   getCorsOrigin: () => {
-    return appConfig.cors.origin === 'true' ? true : commaSeparatedStringToArray(appConfig.cors.origin);
+    if (appConfig.cors.origin === 'true') {
+      return true;
+    }
+
+    if (Array.isArray(appConfig.cors.origin)) {
+      return appConfig.cors.origin;
+    }
+
+    return commaSeparatedStringToArray(appConfig.cors.origin);
   },
   getCorsMethods: () => {
     return commaSeparatedStringToArray(appConfig.cors.methods);

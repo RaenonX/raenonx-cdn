@@ -1,5 +1,5 @@
 export type CorsConfig = {
-  origin: string,
+  origin: string[] | string,
   credentials: boolean,
   methods: string,
   headers: string,

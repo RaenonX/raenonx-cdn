@@ -22,8 +22,8 @@ export const setAssetReplyHeaders = <TReply extends FastifyReply>(
   }: SetAssetReplyHeadersOpts,
 ): TReply => {
   reply
-    .header('Content-Type', contentType)
     .header('Cache-Control', cacheControl)
+    .header('Content-Type', contentType)
     .header('Content-Length', fileSizeBytes);
 
   return reply;

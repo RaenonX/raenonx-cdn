@@ -94,8 +94,23 @@
       ],
       "properties": {
         "origin": {
-          "type": "string",
-          "description": "CORS origin setting - 'true' for all origins, comma-separated domains, or 'false'"
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "description": "Array of allowed CORS origins"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "description": "Single CORS origin or comma-separated domains, or 'true' for all origins"
+            }
+          ],
+          "description": "CORS origin setting - array of origins, single origin, comma-separated domains, or 'true' for all origins"
         },
         "credentials": {
           "type": "boolean",
