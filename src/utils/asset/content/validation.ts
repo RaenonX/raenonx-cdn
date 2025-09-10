@@ -14,7 +14,7 @@ export const validateContentRequestParams = (
   query: ContentRepoApiRequest,
 ): ContentParamsValidationResult => {
   const repoId = params.repo;
-  const contentPath = query.src;
+  const contentPath = query.src ?? query.url;
 
   if (!repoId) {
     return {

@@ -5,9 +5,11 @@ import type {RouteGenericInterface} from 'fastify';
 
 /**
  * Content API request query parameters
+ * Either 'src' or 'url' parameter can be used to specify the content path
  */
 export type ContentRepoApiRequest = {
-  src: string,
+  src?: string,
+  url?: string,
 };
 
 /**
