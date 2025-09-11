@@ -42,17 +42,13 @@ export type AnalyticsRequestData = {
  */
 export type GoogleAnalyticsEvent = {
   /**
-   * Client ID for user identification
-   */
-  client_id: string,
-  /**
    * Event name
    */
   name: string,
   /**
    * Event parameters
    */
-  parameters: {
+  params: {
     /**
      * Custom parameters for the CDN API usage
      */
@@ -73,9 +69,13 @@ export type GoogleAnalyticsEvent = {
  */
 export type GoogleAnalyticsPayload = {
   /**
-   * Client ID
+   * Client ID for user identification
    */
   client_id: string,
+  /**
+   * Timestamp in microseconds (optional, defaults to current time if not provided)
+   */
+  timestamp_micros?: string,
   /**
    * Events array
    */

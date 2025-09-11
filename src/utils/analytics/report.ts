@@ -30,12 +30,9 @@ export const generateClientId = (analyticsData: AnalyticsRequestData): string =>
  * @returns Google Analytics event object
  */
 export const createAnalyticsEvent = (analyticsData: AnalyticsRequestData): GoogleAnalyticsEvent => {
-  const clientId = generateClientId(analyticsData);
-
   return {
-    client_id: clientId,
     name: 'cdn_api_request',
-    parameters: {
+    params: {
       api_endpoint: analyticsData.endpoint,
       repository_id: analyticsData.repositoryId,
       country: analyticsData.country,
@@ -53,11 +50,9 @@ export const createAnalyticsEvent = (analyticsData: AnalyticsRequestData): Googl
  * @returns Google Analytics Measurement Protocol payload
  */
 export const createAnalyticsPayload = (analyticsData: AnalyticsRequestData): GoogleAnalyticsPayload => {
-  const event = createAnalyticsEvent(analyticsData);
-
   return {
-    client_id: event.client_id,
-    events: [event],
+    client_id: generateClientId(analyticsData),
+    events: [createAnalyticsEvent(analyticsData)],
   };
 };
 
