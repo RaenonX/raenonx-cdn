@@ -8,16 +8,15 @@ import {AnalyticsRequestData, GoogleAnalyticsEvent, GoogleAnalyticsPayload} from
 
 /**
  * Generates a client ID for Google Analytics
- * Uses a combination of IP and timestamp for uniqueness
+ * Uses a combination of repository ID and timestamp for uniqueness
  * @param analyticsData - Analytics data containing IP and other identifiers
  * @returns Generated client ID
  */
 export const generateClientId = (analyticsData: AnalyticsRequestData): string => {
-  // Use IP if available, otherwise use timestamp-based ID
-  const baseId = analyticsData.ip ?? `anonymous_${Date.now()}`;
+  const baseId = analyticsData.repositoryId ?? `anonymous_${Date.now()}`;
 
   // Create a simple hash-like ID
-  const hash = baseId.split('').reduce((acc, char) => {
+  const hash = baseId.toString().split('').reduce((acc, char) => {
     return ((acc << 5) - acc + char.charCodeAt(0)) & 0xffffffff;
   }, 0);
 
@@ -39,7 +38,6 @@ export const createAnalyticsEvent = (analyticsData: AnalyticsRequestData): Googl
     parameters: {
       api_endpoint: analyticsData.endpoint,
       repository_id: analyticsData.repositoryId,
-      user_ip: analyticsData.ip,
       user_country: analyticsData.country,
       request_origin: analyticsData.origin,
       host_url: analyticsData.hostUrl,

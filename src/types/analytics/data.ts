@@ -7,10 +7,6 @@
  */
 export type AnalyticsRequestData = {
   /**
-   * Client IP address from CF-Connecting-IP header
-   */
-  ip?: string,
-  /**
    * Country code from CF-IPCountry header
    */
   country?: string,

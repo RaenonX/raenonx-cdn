@@ -145,7 +145,6 @@ export const collectAnalyticsData = (
   endpoint: 'image' | 'content' | 'health',
 ): AnalyticsRequestData => {
   return {
-    ip: extractClientIp(request),
     country: extractCountry(request),
     origin: extractOrigin(request),
     hostUrl: extractHostUrl(request),
