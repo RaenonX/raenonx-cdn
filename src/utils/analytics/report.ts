@@ -38,7 +38,7 @@ export const createAnalyticsEvent = (analyticsData: AnalyticsRequestData): Googl
     parameters: {
       api_endpoint: analyticsData.endpoint,
       repository_id: analyticsData.repositoryId,
-      user_country: analyticsData.country,
+      country: analyticsData.country,
       request_origin: analyticsData.origin,
       host_url: analyticsData.hostUrl,
       // Spread query parameters as individual parameters

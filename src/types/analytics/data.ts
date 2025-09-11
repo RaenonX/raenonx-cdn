@@ -58,8 +58,7 @@ export type GoogleAnalyticsEvent = {
      */
     api_endpoint?: string,
     repository_id?: string,
-    user_ip?: string,
-    user_country?: string,
+    country?: string,
     request_origin?: string,
     host_url?: string,
     /**
