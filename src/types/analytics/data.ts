@@ -23,9 +23,9 @@ export type AnalyticsRequestData = {
    */
   hostUrl?: string,
   /**
-   * Repository ID from the API path parameter
+   * Repository ID from the API path parameter (optional for health endpoint)
    */
-  repositoryId: string,
+  repositoryId?: string,
   /**
    * Individual query parameters broken down as key-value pairs
    * Each query parameter is stored separately for analytics
@@ -34,7 +34,7 @@ export type AnalyticsRequestData = {
   /**
    * API endpoint type
    */
-  endpoint: 'image' | 'content',
+  endpoint: 'image' | 'content' | 'health',
   /**
    * Timestamp of the request
    */

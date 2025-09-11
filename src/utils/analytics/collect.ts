@@ -135,14 +135,14 @@ export const parseQueryParameters = (
 /**
  * Collects all analytics data from a FastifyRequest
  * @param request - Fastify request object
- * @param repositoryId - Repository ID from the API path
- * @param endpoint - API endpoint type ('image' or 'content')
+ * @param repositoryId - Repository ID from the API path (optional for health endpoint)
+ * @param endpoint - API endpoint type ('image', 'content', or 'health')
  * @returns Complete analytics data object
  */
 export const collectAnalyticsData = (
   request: FastifyRequest,
-  repositoryId: string,
-  endpoint: 'image' | 'content',
+  repositoryId: string | undefined,
+  endpoint: 'image' | 'content' | 'health',
 ): AnalyticsRequestData => {
   return {
     ip: extractClientIp(request),
