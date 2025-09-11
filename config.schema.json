@@ -8,7 +8,8 @@
     "cors",
     "cache",
     "image",
-    "repositories"
+    "repositories",
+    "analytics"
   ],
   "definitions": {
     "CacheStorageConfig": {
@@ -254,6 +255,38 @@
       },
       "additionalProperties": false,
       "minProperties": 1
+    },
+    "analytics": {
+      "type": "object",
+      "description": "Google Analytics configuration for API usage tracking",
+      "required": [
+        "measurementId",
+        "apiSecret",
+        "enabled"
+      ],
+      "properties": {
+        "measurementId": {
+          "type": "string",
+          "pattern": "^G-[A-Z0-9]+$",
+          "description": "Google Analytics Measurement ID (e.g., G-XXXXXXXXXX)"
+        },
+        "apiSecret": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Google Analytics API Secret for Measurement Protocol"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether analytics collection is enabled"
+        },
+        "endpoint": {
+          "type": "string",
+          "format": "uri",
+          "description": "Google Analytics Measurement Protocol endpoint URL",
+          "default": "https://www.google-analytics.com/mp/collect"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

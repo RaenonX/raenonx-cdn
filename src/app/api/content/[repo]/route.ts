@@ -4,6 +4,8 @@ import type {FastifyRequest} from 'fastify';
 
 import {ContentRepoRoute} from '@/types/app/api/content/route';
 import {RoutedFastifyReply} from '@/types/fastify';
+import {collectAnalyticsData} from '@/utils/analytics/collect';
+import {sendAnalyticsAsync} from '@/utils/analytics/report';
 import {validateContentRequestParams} from '@/utils/asset/content/validation';
 import {resolveAssetPath} from '@/utils/asset/path';
 import {setAssetReplyHeaders} from '@/utils/asset/reply';
@@ -22,6 +24,10 @@ export const handleContentRepoRequest = async (
   if (!validationResult.isValid) {
     return reply.code(validationResult.statusCode ?? 400).send({error: validationResult.error});
   }
+
+  // Collect and send analytics data asynchronously
+  const analyticsData = collectAnalyticsData(request, validationResult.repoId, 'content');
+  sendAnalyticsAsync(analyticsData);
 
   // Resolve asset path
   const resolution = await resolveAssetPath(validationResult.repoId, validationResult.contentPath);

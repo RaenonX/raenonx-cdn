@@ -35,3 +35,16 @@ repositories:
           ttl: 2592000 # 30 days
     contents:
       ogg: {}
+
+analytics:
+  # Google Analytics configuration for API usage tracking
+  # To obtain these values:
+  # 1. measurementId: Go to Google Analytics > Admin > Data Streams > Select your stream > View measurement ID (format: G-XXXXXXXXXX)
+  # 2. apiSecret: In the same Data Streams page > Measurement Protocol API secrets > Create new secret
+  #    - Give it a nickname (e.g., "CDN Analytics")
+  #    - Copy the generated secret value
+  # Note: You need a Google Analytics 4 (GA4) property to use the Measurement Protocol
+  measurementId: "G-XXXXXXXXXX"
+  apiSecret: "your_api_secret_here"
+  enabled: false
+  endpoint: "https://www.google-analytics.com/mp/collect"

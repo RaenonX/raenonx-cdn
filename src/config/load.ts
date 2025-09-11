@@ -2,6 +2,7 @@ import {existsSync, readFileSync} from 'fs';
 import {join, resolve} from 'path';
 
 import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 import {load} from 'js-yaml';
 
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
@@ -31,6 +32,7 @@ export function loadAppConfig() {
 
   // Validate config against schema
   const ajv = new Ajv({allErrors: true, strict: true});
+  addFormats(ajv);
   const validate = ajv.compile(schema);
   const valid = validate(config);
   if (!valid) {

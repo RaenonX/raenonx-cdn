@@ -5,6 +5,8 @@ import type {FastifyRequest} from 'fastify';
 
 import {ImageRepoRoute} from '@/types/app/api/image/route';
 import {RoutedFastifyReply} from '@/types/fastify';
+import {collectAnalyticsData} from '@/utils/analytics/collect';
+import {sendAnalyticsAsync} from '@/utils/analytics/report';
 import {checkImageCache, writeImageCache} from '@/utils/asset/image/cache';
 import {processImage} from '@/utils/asset/image/process';
 import {validateImageRequestParams} from '@/utils/asset/image/validation';
@@ -26,6 +28,10 @@ export const handleImageRepoRequest = async (
   if (!validationResult.isValid) {
     return reply.code(validationResult.statusCode ?? 400).send({error: validationResult.error});
   }
+
+  // Collect and send analytics data asynchronously
+  const analyticsData = collectAnalyticsData(request, validationResult.repoId, 'image');
+  sendAnalyticsAsync(analyticsData);
 
   // Resolve asset path
   const resolution = await resolveAssetPath(validationResult.repoId, validationResult.imagePath);

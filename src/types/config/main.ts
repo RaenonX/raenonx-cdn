@@ -1,6 +1,7 @@
 /**
  * Main configuration types for YAML configuration
  */
+import {AnalyticsConfig} from '@/types/config/analytics';
 import {CacheConfig} from '@/types/config/cache';
 import {CorsConfig} from '@/types/config/cors';
 import {ImageConfig} from '@/types/config/image';
@@ -14,4 +15,5 @@ export type AppConfig = {
   cache: CacheConfig,
   image: ImageConfig,
   repositories: Repositories,
+  analytics: AnalyticsConfig,
 };

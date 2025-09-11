@@ -1,0 +1,88 @@
+/**
+ * Types for analytics data collection and reporting
+ */
+
+/**
+ * Base analytics data captured from all API requests
+ */
+export type AnalyticsRequestData = {
+  /**
+   * Client IP address from CF-Connecting-IP header
+   */
+  ip?: string,
+  /**
+   * Country code from CF-IPCountry header
+   */
+  country?: string,
+  /**
+   * Origin of the request (referrer or origin header)
+   */
+  origin?: string,
+  /**
+   * Host URL of the current server handling the request
+   */
+  hostUrl?: string,
+  /**
+   * Repository ID from the API path parameter
+   */
+  repositoryId: string,
+  /**
+   * Individual query parameters broken down as key-value pairs
+   * Each query parameter is stored separately for analytics
+   */
+  queryParameters: Record<string, string | number | boolean>,
+  /**
+   * API endpoint type
+   */
+  endpoint: 'image' | 'content',
+  /**
+   * Timestamp of the request
+   */
+  timestamp: string,
+};
+
+/**
+ * Google Analytics Measurement Protocol event data structure
+ */
+export type GoogleAnalyticsEvent = {
+  /**
+   * Client ID for user identification
+   */
+  client_id: string,
+  /**
+   * Event name
+   */
+  name: string,
+  /**
+   * Event parameters
+   */
+  parameters: {
+    /**
+     * Custom parameters for the CDN API usage
+     */
+    api_endpoint?: string,
+    repository_id?: string,
+    user_ip?: string,
+    user_country?: string,
+    request_origin?: string,
+    host_url?: string,
+    /**
+     * Dynamic query parameters (flattened)
+     */
+    [key: string]: string | number | boolean | undefined,
+  },
+};
+
+/**
+ * Complete Google Analytics Measurement Protocol payload
+ */
+export type GoogleAnalyticsPayload = {
+  /**
+   * Client ID
+   */
+  client_id: string,
+  /**
+   * Events array
+   */
+  events: GoogleAnalyticsEvent[],
+};
